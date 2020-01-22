@@ -3,8 +3,8 @@
 class QuestionsController < ApplicationController
   def create
     question = Question.create(validated_params)
-
     question.enqueue_translation
+
     redirect_to article_path(question.article)
   end
 
@@ -35,7 +35,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     Question.destroy(params[:id])
-    
+
     redirect_to article_path(Article.find(params[:article_id]))
   end
 
