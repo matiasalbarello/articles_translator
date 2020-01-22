@@ -1,0 +1,8 @@
+= link_to "Back to articles", articles_path
+
+= simple_form_for @article do |a|
+  = a.input :name
+  = a.button :submit
+
+= render "questions/questions_list", article: @article
+= link_to "Create Question", new_article_question_path(@article)

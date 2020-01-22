@@ -1,0 +1,23 @@
+%h1
+  Articles
+= link_to "Create Article", new_article_path
+
+%table.table#articles-list
+  %thead
+    %tr
+      %th.text-center
+        Name
+      %th.text-center
+        Count of Questions
+      %th{ width: "5%"} &nbsp;
+      %th{ width: "5%"} &nbsp;
+      %th{ width: "5%"} &nbsp;
+
+  %tbody
+    - @articles.each do |article|
+      %tr.article-row
+        %td.text-center= article.name
+        %td.text-center= article.questions.count
+        %td.actions= link_to "Edit", edit_article_path(article)
+        %td.actions= link_to "Show", article_path(article)
+        %td.actions= link_to "Delete", article, method: :delete

@@ -1,0 +1,27 @@
+%h3
+  Questions List
+- if article.questions.any?
+  %table.table#questions-list
+    %thead
+      %tr
+        %th.text-center
+          Question
+        %th.text-center
+          Answer
+        %th{ width: "5%"} &nbsp;
+        %th{ width: "5%"} &nbsp;
+        %th{ width: "5%"} &nbsp;
+        %th{ width: "5%"} &nbsp;
+    %tbody
+      - article.questions.each do |question|
+        %tr.article-row
+          %td.text-center= question.text
+          %td.text-center= question.answer
+          %td.actions= link_to("Edit", edit_article_question_path(article, question))
+          %td.actions= link_to("Show", article_question_path(article, question))
+          %td.actions= link_to("Delete", article_question_path(article, question), method: :delete)
+          %td.actions= link_to("Show translation", article_question_question_translation_path(article, question))
+
+- else
+  %p
+    Questions List empty
