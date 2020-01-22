@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class TranslateQuestionJob < ApplicationJob
+  retry_on TranslationService::CouldNotTemporarilyTranslateError,
+           wait: :exponentially_longer,
+           attempts: 3 do |_job, error|
+    logger = Logger.new(STDOUT)
+    logger.error(error.message)
+  end
+
   def perform(question_id:)
     logger = Logger.new(STDOUT)
     logger.info("Performing #{self.class}")
@@ -24,8 +31,8 @@ class TranslateQuestionJob < ApplicationJob
 
   def translate_question(question)
     {
-      text_translated: translator_service.translate(question.text).translated_text,
-      answer_translated: translator_service.translate(question.answer).translated_text
+      text_translated: translator_service.translate(question.text)&.translated_text,
+      answer_translated: translator_service.translate(question.answer)&.translated_text
     }
   end
 end
